@@ -1,0 +1,156 @@
+<krpano>
+    <!--小行星开场-->
+    <action name="skin_setup_little">
+        copy(lp_scene, xml.scene);
+        copy(lp_hlookat, view.hlookat);
+        copy(lp_vlookat, view.vlookat);
+        copy(lp_fov, view.fov);
+        copy(lp_fovmax, view.fovmax);
+        copy(lp_limitview, view.limitview);
+        set(view.fisheyefovlink , -1);
+        set(view.fovmax, 138);
+        lookat(calc(lp_hlookat + 180), 90, 138, 1, 0, 0);
+        set(view.architecturalonlymiddle );
+        delayedcall(2.0,
+        if(lp_scene === xml.scene,
+        set(control.usercontrol, off);
+        copy(view.limitview, lp_limitview);
+        set(view.vlookatmin, null);
+        set(view.vlookatmax, null);
+        tween(view.hlookat|view.vlookat|view.fov|view.distortion|view.fisheyefovlink, calc('' + lp_hlookat + '|' +
+        lp_vlookat + '|' + lp_fov + '|' + 0.0 + '|' + 0),
+        3.5, easeOutQuad,
+        set(control.usercontrol, all);
+        tween(view.fovmax, get(lp_fovmax));
+        js(window.myKrp.onanimationcomplete());
+        );
+        );
+        );
+    </action>
+
+    <!--水平巡游开场-->
+    <action name="skin_setup_rotate">
+        copy(lp_scene, xml.scene);
+        copy(lp_hlookat, view.hlookat);
+        copy(lp_vlookat, view.vlookat);
+        copy(lp_fov, view.fov);
+        copy(lp_fovmax, view.fovmax);
+        copy(lp_limitview, view.limitview);
+        set(view.limitview, lookto);
+        lookat(calc(lp_hlookat - 360), 0, lp_fovmax, 0, 0, 0);
+        set(events[lp_events].onloadcomplete,
+        delayedcall(1.0,
+        if(lp_scene === xml.scene,
+        set(control.usercontrol, off);
+        copy(view.limitview, lp_limitview);
+        set(view.vlookatmin, null);
+        set(view.vlookatmax, null);
+        tween(view.hlookat|view.vlookat|view.fov|view.distortion, calc('' + lp_hlookat + '|' + lp_vlookat + '|' + lp_fov
+        + '|' + 0.0),
+        12.0, easeInOutQuad,
+        set(control.usercontrol, all);
+        tween(view.fovmax, get(lp_fovmax));
+        js(window.myKrp.onanimationcomplete());
+        );
+        );
+        );
+        );
+    </action>
+
+    <!--水晶球开场-->
+    <action name="skin_setup_ball">
+        copy(lp_scene, xml.scene);
+        copy(lp_hlookat, view.hlookat);
+        copy(lp_vlookat, view.vlookat);
+        copy(lp_fov, view.fov);
+        copy(lp_fovmax, view.fovmax);
+        copy(lp_limitview, view.limitview);
+        set(view.limitview, lookto);
+        lookat(calc(lp_hlookat - 360), 0, lp_fovmax, 3.8, 0, 0);
+        set(events[lp_events].onloadcomplete,
+        delayedcall(1.0,
+        if(lp_scene === xml.scene,
+        set(control.usercontrol, off);
+        copy(view.limitview, lp_limitview);
+        set(view.vlookatmin, null);
+        set(view.vlookatmax, null);
+        tween(view.hlookat|view.vlookat|view.fov|view.distortion, calc('' + lp_hlookat + '|' + lp_vlookat + '|' + lp_fov
+        + '|' + 0.0),
+        8.0, easeInOutQuad,
+        set(control.usercontrol, all);
+        tween(view.fovmax, get(lp_fovmax));
+        js(window.myKrp.onanimationcomplete());
+        );
+        );
+        );
+        );
+    </action>
+
+    <!--小行星巡游开场-->
+    <action name="skin_setup_little_rotate">
+        copy(lp_scene, xml.scene);
+        copy(lp_hlookat, view.hlookat);
+        copy(lp_vlookat, view.vlookat);
+        copy(lp_fov, view.fov);
+        copy(lp_fovmax, view.fovmax);
+        copy(lp_limitview, view.limitview);
+        set(view.limitview, lookto);
+        set(view.fovmax, 138);
+        lookat(calc(lp_hlookat - 360), -45, view.fov, 0, 0, 0);
+        set(events[lp_events].onloadcomplete,
+        delayedcall(1.0,
+        if(lp_scene === xml.scene,
+        set(control.usercontrol, off);
+        copy(view.limitview, lp_limitview);
+        set(view.vlookatmin, null);
+        set(view.vlookatmax, null);
+        tween(view.hlookat|view.vlookat|view.fov|view.distortion, calc('' + lp_hlookat + '|' + 90 + '|' + 138 + '|' +1),
+        10.0, easeInOutQuad,
+        delayedcall(0.5,
+        tween(view.hlookat|view.vlookat|view.fov|view.distortion, calc('' + lp_hlookat + '|' + lp_vlookat + '|' + lp_fov
+        + '|' +0),
+        2.5, linear,
+        set(control.usercontrol, all);
+        tween(view.fovmax, get(lp_fovmax)); js(window.myKrp.onanimationcomplete()););
+        );
+        );
+        );
+        );
+        );
+    </action>
+
+    <!--小行星缩放开场-->
+    <action name="skin_setup_little_scale">
+        copy(lp_scene, xml.scene);
+        copy(lp_hlookat, view.hlookat);
+        copy(lp_vlookat, view.vlookat);
+        copy(lp_fov, view.fov);
+        copy(lp_fovmax, view.fovmax);
+        copy(lp_limitview, view.limitview);
+        set(view.limitview, lookto);
+        set(view.fovmax, 140);
+        lookat(calc(lp_hlookat + 360), -65, 123, 1, 0, 0);
+        set(events[lp_events].onloadcomplete,
+        delayedcall(1.0,
+        if(lp_scene === xml.scene,
+        set(control.usercontrol, off);
+        copy(view.limitview, lp_limitview);
+        set(view.vlookatmin, null);
+        set(view.vlookatmax, null);
+        tween(view.hlookat|view.vlookat|view.fov|view.distortion, calc('' + lp_hlookat + '|' + 90 + '|' + 123
+        + '|' + 1.0),
+        8.0, easeInOutQuad,
+        delayedcall(0.5,
+        tween(view.hlookat|view.vlookat|view.fov|view.distortion, calc('' + lp_hlookat + '|' +
+        lp_vlookat + '|' + lp_fov + '|' + 0),
+        3.0, easeInOutQuad,
+        set(control.usercontrol, all);
+        tween(view.fovmax, get(lp_fovmax));
+        js(window.myKrp.onanimationcomplete());
+        ));
+        );
+        );
+        );
+        );
+    </action>
+</krpano>

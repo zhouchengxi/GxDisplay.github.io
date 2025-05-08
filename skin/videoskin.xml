@@ -1,0 +1,21 @@
+<krpano>
+
+    <plugin name="video"
+            keep="true"
+            pausedonstart="true"
+            html5preload="auto"
+            url="../plugins/videoplayer.js"
+            onerror=""
+            onvideocomplete=""
+            onvideopaused=""
+            onvideoplay=""
+            onvideoready=""
+            onvideotimeupdate=""
+            videourl=""
+            volume="1.0"
+            autopause="false"
+            autoresume="false"
+            userinteractionworkarounds="false"
+    />
+
+</krpano>

@@ -1,0 +1,197 @@
+<krpano licznik="0" x_listflar="0" y_listflar="160">
+
+	<lensflares name="obj">
+		<item name="flark" ath="" atv="" scene="" typ="blinkstyle1"/>
+	</lensflares>
+
+<!--	<events name="loasflares" keep="true" onblendcomplete="load_flare_content()"/>-->
+
+	<style name="flare" enabled="false" alpha="0" edge="center" ox="0" oy="0" width="440" height="440" keep="false" />
+
+	<!--6种光源-->
+	<flare_style name="blinkstyle1">
+		<item name="flare1" url="%$prevPath%/skin/lensflare/blinkstyle1/flare7.png" move="0.0" scale="1.0" alpha="1.0" zorder="-1.0" vars="0.0|1.0|1.0|-1|0|1|false|0.0|0.05|true|normal"/>
+		<item name="flare2" url="%$prevPath%/skin/lensflare/blinkstyle1/flare5.png" move="0.0" scale="6.0" alpha="0.0" zorder="2.0" vars="0.0|6.0|0.0|2|0.9|0.017|true|0.4|0.05|false|add"/>
+		<item name="flare3" url="%$prevPath%/skin/lensflare/blinkstyle1/flare2.png" move="-6.0" scale="0.2" alpha="0.2" zorder="-1.0" vars="-6.0|0.2|0.2|-1|0.9|0.015|false|0.2|0.015|false|add"/>
+		<item name="flare4" url="%$prevPath%/skin/lensflare/blinkstyle1/flare6.png" move="-3.0" scale="0.3" alpha="0.4" zorder="-1.0" vars="-3.0|0.3|0.4|-1|0.9|0.015|false|0.2|0.015|true|add"/>
+		<item name="flare5" url="%$prevPath%/skin/lensflare/blinkstyle1/flare8.png" move="-0.8" scale="0.3" alpha="0.6" zorder="-1.0" vars="-0.8|0.3|0.6|-1|0.9|0.015|false|0.2|0.015|true|add"/>
+		<item name="flare6" url="%$prevPath%/skin/lensflare/blinkstyle1/flare8.png" move="-0.3" scale="0.2" alpha="0.7" zorder="-1.0" vars="-0.3|0.2|0.7|-1|0.9|0.017|true|0.4|0.017|false|add"/>
+		<item name="flare7" url="%$prevPath%/skin/lensflare/blinkstyle1/flare4.png" move="7.0" scale="0.8" alpha="0.2" zorder="-1.0" vars="7.0|0.8|0.2|-1|0.9|0.01|true|0.5|0.02|false|add"/>
+	</flare_style>
+
+	<!--打开关闭vr保持光源-->
+	<plugin name="WebVR" keep="true" devices="html5"
+	        onentervr="skin_showloading(false); webvr_onentervr(); webvr_setup();roszada_flar_vebvrmode()"
+	        onexitvr="webvr_onexitvr(); webvr_setup();roszada_flar_vebvrmode()"
+	        />
+
+	<action name="roszada_flar_vebvrmode">
+		for(set(i,0),i LT hotspot.count,inc(i),
+		  if(hotspot[get(i)].tag == 'lensflare_tag_dynamic',
+				vonh(get(i));
+			);
+		);
+		load_flare_content();
+	</action>
+
+	<action name="load_flare_content">
+		set(load_gui_flar, false);
+		for(set(i,0), i LT lensflares[obj].item.count, inc(i),
+		copy(name_flare, lensflares[obj].item[get(i)].name);
+		copy(blink_style, lensflares[obj].item[get(i)].typ);
+
+		if(lensflares[obj].item[get(i)].scene == xml.scene,
+		set(load_gui_flar, true);
+		for(set(j,0), j LT flare_style[get(blink_style)].item.count, inc(j),
+		txtadd(n, 'f1_',get(lensflares[obj].item[get(i)].name),'_',get(j));
+
+		add_single_flare(get(n),get(i),get(j),get(blink_style),get(name_flare),get(flare_style[get(blink_style)].item[get(j)].move));
+		);
+		);
+		);
+	</action>
+
+	<action name="add_single_flare">
+
+		fhotspot(%1,flare);
+		copy(h.url, flare_style[%4].item[%3].url);
+		copy(h.ath, lensflares[obj].item[%5].ath);
+		copy(h.atv, lensflares[obj].item[%5].atv);
+		if(lensflares[obj].item[%5].dust_effect === null, set(lensflares[obj].item[%5].dust_effect, true));
+		copy(h.dust_effect, lensflares[obj].item[%5].dust_effect);
+		set(h.tagmini, %5);
+		copy(h.scale, flare_style[%4].item[%3].scale);
+		copy(h.alpha, flare_style[%4].item[%3].alpha);
+		copy(h.zorder, flare_style[%4].item[%3].zorder);
+		set(h.onloaded,
+		asyncloop(loaded,
+		spheretoscreen(ath, atv, xposh_%1, yposh_%1);
+		div(xpos_%1, stagewidth, 2);
+		div(ypos_%1, stageheight, 2);
+		sub(xposg_%1, xposh_%1, xpos_%1);
+		sub(yposg_%1, yposh_%1, ypos_%1);
+		div(ox, xposg_%1, %6);
+		div(oy, yposg_%1, %6);
+		if(%3 == '1',
+		getlooktodistance(result_%1, view.hlookat, view.vlookat, ath, atv);
+		div(result1_%1, result_%1, 10);
+		clamp(result1_%1, 0.0, 1.0);
+		mod(result2_%1, result1_%1, 100);
+		sub(result2_%1,1);
+		mul(result2_%1,-1);
+
+		copy(alpha, result2_%1);
+		sub(alpha, 0.3);
+
+
+		if('%4' != 'blinkstyle9',
+		if(result_%1 LT 7,
+		migaj_kurzem(get(result2_%1),get(dust_effect));
+		);
+		if(result_%1 GT 7 AND result_%1 LT 20,
+		migaj_kurzem(0,true);
+		);
+		);
+
+		);
+		testme(%1,get(xposh_%1),get(yposh_%1));
+		);
+		);
+
+	</action>
+
+	<action name="migaj_kurzem">
+		if(%2,
+			set(layer[blink_fl_lt].alpha, %1);
+			set(layer[blink_fl_rt].alpha, %1);
+			set(layer[blink_fl_rb].alpha, %1);
+			set(layer[blink_fl_lb].alpha, %1);
+			set(layer[blink_fl_ce].alpha, %1);
+		);
+	</action>
+
+	<action name="testme">
+		if(%3 LT 0 OR !%3,
+			set(ukryj_gora_%1, true);
+		,
+			set(ukryj_gora_%1, false);
+		);
+
+		if(%3 GT stageheight OR !%3,
+			set(ukryj_dol_%1, true);
+		,
+			set(ukryj_dol_%1, false);
+		);
+
+
+		set(zero_lewo_123, 0);
+		copy(zero_prawo_123, stagewidth);
+
+		if(fwebvr.isenabled,
+			set(zero_lewo_123, 360);
+			set(zero_prawo_123, calc(stagewidth-360));
+		);
+
+
+		if(%2 LT zero_lewo_123 OR !%2,
+			set(ukryj_lewo_%1, true);
+		,
+			set(ukryj_lewo_%1, false);
+		);
+
+		if(%2 GT zero_prawo_123 OR !%2,
+			set(ukryj_prawo_%1, true);
+		,
+			set(ukryj_prawo_%1, false);
+		);
+
+    getlooktodistance(re_%1, view.hlookat, view.vlookat, ath, atv);
+
+		if(!ukryj_gora_%1 AND !ukryj_dol_%1 AND !ukryj_lewo_%1 AND !ukryj_prawo_%1 AND re_%1 LT 90,
+			set(visible, true);
+		,
+			set(visible, false);
+		);
+	</action>
+
+	<action name="reset_pano_lensflare"/>
+
+	<action name="flayer">
+		addlayer(%1);
+		layer[%1].loadstyle(%2);
+		copy(p, layer[%1]);
+	</action>
+
+	<action name="fhotspot">
+		addhotspot(%1);
+		hotspot[%1].loadstyle(%2);
+		copy(h, hotspot[%1]);
+	</action>
+
+	<action name="vonp">
+		if(layer[%1].loaded, removelayer(%1));
+	</action>
+
+	<action name="vonh">
+		if(hotspot[%1].loaded, removehotspot(%1));
+	</action>
+
+	<action name="vonh_all">
+	  sub(i,hotspot.count,1);
+	  if(i GE 0,loop_vonh_all(get(i),%1,%2));
+   </action>
+
+	<action name="loop_vonh_all">
+		if(%2 == null,
+			vonh(%1);
+		,
+			if(hotspot[%1].%2 == %3,
+				vonh(%1);
+			);
+		);
+		dec(i);
+		if(i GE 0, loop_vonh_all(get(i),%2,%3));
+   </action>
+
+
+</krpano>
